@@ -15,13 +15,7 @@ public class UserDomainServices {
 
     public boolean createUser(RegistrationForm registrationForm) {
         try {
-            jdbcConnection.createUser(registrationForm.getLogin(),
-                    registrationForm.getPassword(),
-                    registrationForm.getEmail(),
-                    registrationForm.getLastName(),
-                    registrationForm.getSurName(),
-                    registrationForm.getFirstName(),
-                    registrationForm.getCity());
+            jdbcConnection.createUser(registrationForm);
         } catch (SQLException exception) {
             System.out.println(exception);
         }

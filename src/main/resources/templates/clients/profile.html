@@ -58,7 +58,7 @@
 
             <ul class="nav nav-tabs" id="myTab">
                 <li class="active"><a href="#home" data-toggle="tab">Orders</a></li>
-                <li th:if="${role} == 'ROLE_CLIENT'"><a href="#messages" data-toggle="tab">Create order</a></li>
+                <li th:if="${owner} == true"><a href="#messages" data-toggle="tab">Create order</a></li>
                 <li th:if="${owner} == true" ><a href="#settings" data-toggle="tab">Settings</a></li>
             </ul>
 
@@ -179,15 +179,13 @@
                 </div>
                 <!--/tab-pane-->
                 <div class="tab-pane" id="settings" th:if="${owner} == true">
-
                     <hr>
-                    <form class="form" action="##" method="post" id="registrationForm">
+                    <form th:action="@{/client/edit}" th:object="${editForm}" method="post">
                         <div class="form-group">
-
                             <div class="col-xs-6">
                                 <label for="first_name">
                                     <h4>First name</h4></label>
-                                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any.">
+                                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name">
                             </div>
                         </div>
                         <div class="form-group">
@@ -195,7 +193,7 @@
                             <div class="col-xs-6">
                                 <label for="last_name">
                                     <h4>Last name</h4></label>
-                                <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any.">
+                                <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name">
                             </div>
                         </div>
 
@@ -204,7 +202,7 @@
                             <div class="col-xs-6">
                                 <label for="phone">
                                     <h4>Phone</h4></label>
-                                <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone" title="enter your phone number if any.">
+                                <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone">
                             </div>
                         </div>
 
@@ -212,7 +210,7 @@
                             <div class="col-xs-6">
                                 <label for="mobile">
                                     <h4>Mobile</h4></label>
-                                <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any.">
+                                <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number">
                             </div>
                         </div>
                         <div class="form-group">
@@ -220,7 +218,7 @@
                             <div class="col-xs-6">
                                 <label for="email">
                                     <h4>Email</h4></label>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com">
                             </div>
                         </div>
                         <div class="form-group">
@@ -228,7 +226,7 @@
                             <div class="col-xs-6">
                                 <label for="email">
                                     <h4>Location</h4></label>
-                                <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location">
+                                <input type="email" class="form-control" id="location" placeholder="somewhere">
                             </div>
                         </div>
                         <div class="form-group">

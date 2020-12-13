@@ -2,7 +2,7 @@ package com.shevvvik.autos.database;
 
 public class StoredProcedureList {
 
-    public static final String REGISTRATION_QUERY = "{call registr(?, ?, ?, ?, ?, ?, ?) }";
+    public static final String REGISTRATION_QUERY = "{call registr(?, ?, ?, ?, ?, ?, ?, ?, ?) }";
     public static final String CITIES_QUERY = "{ call getCities() }";
     public static final String GET_CLIENT_PROFILE = "{ call getClientProfileByUsername(?) }";
     public static final String GET_CLIENT_PROFILE_BY_ID = "{ call getClientProfileById(?) }";
@@ -24,5 +24,6 @@ public class StoredProcedureList {
     public static final String ASSIGN_ORDER = "{ call assignOrder(?, ?) }";
     public static final String CHANGE_ORDER_STATUS = "{ call changeOrderStatus(?, ?) }";
 
-    public static final String GET_ORDER_STATUS = "{ call getOrderStatus(?) }";
+    public static final String GET_ORDER_STATUS = "{ ? = call getOrderStatus(?) }";
+    public static final String CHECK_LOGIN = "{ ? = call checkLogin(?) }";
 }

@@ -67,26 +67,24 @@ public class TransitionValidator {
         for(GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             role = grantedAuthority.getAuthority();
         }
-
         Integer currentStatus = 0;
         try {
             currentStatus = connection.getOrderStatusById(orderId);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-
         //Dealer always can cancel order
-        if (StatusConstants.ROLE_DEALER.equals(role)
-                && !StatusConstants.STATUS_COMPLETED.equals(currentStatus)) {
-            return true;
+        if (StatusConstants.ROLE_DEALER.equals(role)) {
+            if (StatusConstants.STATUS_COMPLETED.equals(currentStatus)) {
+                return false;
+            }
+        } else {
+            if (StatusConstants.STATUS_CANCELLED.equals(currentStatus)
+                    || StatusConstants.STATUS_COMPLETED.equals(currentStatus)
+                    || StatusConstants.STATUS_IN_PROGRESS.equals(currentStatus)) {
+                return false;
+            }
         }
-
-        if (StatusConstants.STATUS_CANCELLED.equals(currentStatus)
-                || StatusConstants.STATUS_COMPLETED.equals(currentStatus)
-                || StatusConstants.STATUS_IN_PROGRESS.equals(currentStatus)) {
-            return false;
-        }
-
         return true;
     }
 

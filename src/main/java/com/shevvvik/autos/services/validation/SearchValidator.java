@@ -26,7 +26,6 @@ public class SearchValidator {
         if(searchForm.getCity() != 0) {
             Map<Integer, String> cities = serviceUtils.getCities();
             if (!cities.keySet().contains(searchForm.getCity())) {
-                System.out.println("City");
                 return false;
             }
         }
@@ -35,7 +34,6 @@ public class SearchValidator {
             Pattern emailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
             Matcher matcher = emailPattern.matcher(searchForm.getEmail());
             if (!matcher.find()) {
-                System.out.println("Email");
                 return false;
             }
         }
@@ -44,7 +42,6 @@ public class SearchValidator {
             Pattern pattern = Pattern.compile("^\\d{10}$");
             Matcher matcher = pattern.matcher(searchForm.getPhone().toString());
             if (!matcher.matches()) {
-                System.out.println("Phone");
                 return false;
             }
         }
@@ -70,27 +67,41 @@ public class SearchValidator {
     }
 
     public boolean checkSearchOffersForm(SearchOrdersForm searchForm) {
-
         if(searchForm.getCity() != 0) {
             Map<Integer, String> cities = serviceUtils.getCities();
             if (!cities.keySet().contains(searchForm.getCity())) {
                 return false;
             }
         }
-
-        if (searchForm.getMileageMin() < 0
-                || searchForm.getMileageMax() < 0
-                || searchForm.getMileageMax() < searchForm.getMileageMin()) {
+        if (searchForm.getMileageMin() != null && searchForm.getMileageMin() < 0) {
             return false;
         }
 
-        if (searchForm.getDate() < 1900) {
+        if (searchForm.getMileageMax() != null && searchForm.getMileageMax() < 0) {
             return false;
         }
 
-        if (searchForm.getPriceMin() < 0
-                || searchForm.getPriceMax() < 0
-                || searchForm.getPriceMax() < searchForm.getPriceMin()) {
+        if (searchForm.getMileageMax() != null
+                && searchForm.getMileageMin() != null
+                && searchForm.getMileageMax() < searchForm.getMileageMin()) {
+            return false;
+        }
+
+        if (searchForm.getDate() != null && searchForm.getDate() < 1900) {
+            return false;
+        }
+
+        if (searchForm.getPriceMin() != null && searchForm.getPriceMin() < 0) {
+            return false;
+        }
+
+        if (searchForm.getPriceMax() != null && searchForm.getPriceMax() < 0) {
+            return false;
+        }
+
+        if (searchForm.getPriceMax() != null
+                && searchForm.getPriceMin() != null
+                && searchForm.getPriceMax() < searchForm.getPriceMin()) {
             return false;
         }
 

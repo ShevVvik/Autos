@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Service
 public class JDBCValidation {
@@ -20,11 +17,21 @@ public class JDBCValidation {
         Integer result = 0;
         Connection connection = dataSource.getConnection();
         CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.GET_ORDER_STATUS);
-        callableStatement.setInt(1, id);
-        if (callableStatement.execute()) {
-            result = callableStatement.getInt(1);
-        }
+        callableStatement.setInt(2, id);
+        callableStatement.registerOutParameter(1, Types.INTEGER);
+        callableStatement.execute();
+        result = callableStatement.getInt(1);
         return result;
     }
 
+    public Integer checkLogin(String login) throws SQLException {
+        Integer result = 0;
+        Connection connection = dataSource.getConnection();
+        CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.CHECK_LOGIN);
+        callableStatement.setString(2, login);
+        callableStatement.registerOutParameter(1, Types.INTEGER);
+        callableStatement.execute();
+        result = callableStatement.getInt(1);
+        return result;
+    }
 }

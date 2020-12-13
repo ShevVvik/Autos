@@ -3,6 +3,7 @@ package com.shevvvik.autos.database.connection;
 import com.shevvvik.autos.database.StoredProcedureList;
 import com.shevvvik.autos.services.entities.ClientProfile;
 import com.shevvvik.autos.services.entities.ClientsOrder;
+import com.shevvvik.autos.web.forms.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +21,18 @@ public class JDBCConnection {
     private DataSource dataSource;
 
 
-    public void createUser(String login, String password, String email, String lastName, String surName, String firstName, int city) throws SQLException {
+    public void createUser(RegistrationForm form) throws SQLException {
         Connection connection = dataSource.getConnection();
         CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.REGISTRATION_QUERY);
-        callableStatement.setString(1, login);
-        callableStatement.setString(2, password);
-        callableStatement.setString(3, email);
-        callableStatement.setString(4, firstName);
-        callableStatement.setString(5, surName);
-        callableStatement.setString(6, lastName);
-        callableStatement.setInt(7, city);
+        callableStatement.setString(1, form.getLogin());
+        callableStatement.setString(2, form.getPassword());
+        callableStatement.setString(3, form.getEmail());
+        callableStatement.setString(4, form.getFirstName());
+        callableStatement.setString(5, form.getSurName());
+        callableStatement.setString(6, form.getLastName());
+        callableStatement.setInt(7, form.getCity());
+        callableStatement.setString(8, form.getAddress());
+        callableStatement.setLong(9, form.getPhone());
         callableStatement.execute();
         connection.close();
     }

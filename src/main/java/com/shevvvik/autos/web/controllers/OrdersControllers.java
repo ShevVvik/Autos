@@ -27,19 +27,23 @@ public class OrdersControllers {
     @GetMapping("/orders/cancel/{id}")
     public String cancelOrder(Model model, @PathVariable String id) {
         if (!validator.checkTransitionToCancelled(Integer.valueOf(id))) {
-
-        };
+            return "redirect:/orders/" + id + "/error";
+        }
         ordersLogic.cancelOrder(id);
         return "redirect:/profile";
     }
 
-    @GetMapping("/orders/{id}")
-    public String orderProfile(Model model, @PathVariable String id) {
+    @GetMapping({"/orders/{id}", "/orders/{id}/{error}"})
+    public String orderProfile(Model model, @PathVariable String id, @PathVariable(required = false) String error) {
         String role = "ROLE_CLIENT";
         for(GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             role = grantedAuthority.getAuthority();
         }
-
+        if(error != null && error.equals("error")) {
+            model.addAttribute("error", true);
+        } else {
+            model.addAttribute("error", false);
+        }
         OrderProfile orderProfile = ordersLogic.getOrderProfile(id);
         model.addAttribute("order", orderProfile);
         model.addAttribute("role", role);
@@ -49,7 +53,7 @@ public class OrdersControllers {
     @GetMapping("/orders/{id}/assign")
     public String assignOrder(Model model, @PathVariable String id) {
         if (!validator.checkAssign(Integer.valueOf(id))) {
-
+            return "redirect:/orders/" + id + "/error";
         };
         ordersLogic.assignOrder(id);
         return "redirect:/orders/" + id;
@@ -58,7 +62,7 @@ public class OrdersControllers {
     @GetMapping("/orders/{id}/complete")
     public String completeOrder(Model model, @PathVariable String id) {
         if (!validator.checkTransitionToCompleted(Integer.valueOf(id))) {
-
+            return "redirect:/orders/" + id + "/error";
         };
         ordersLogic.completeOrder(id);
         return "redirect:/orders/" + id;
@@ -67,7 +71,7 @@ public class OrdersControllers {
     @GetMapping("/orders/{id}/start")
     public String startOrder(Model model, @PathVariable String id) {
         if (!validator.checkTransitionToInProgress(Integer.valueOf(id))) {
-
+            return "redirect:/orders/" + id + "/error";
         };
         ordersLogic.startOrder(id);
         return "redirect:/orders/" + id;

@@ -1,0 +1,46 @@
+.container my-3 {
+    margin: auto;
+}
+
+body {
+    background-image: url("../img/site-background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.table-back {
+    background-color: #ffffff !important;
+    padding: 10px;
+}
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.tab-pane {
+    background-color: #ffffff !important;
+}
+
+.container {
+    width: 80%;
+}
+
+.btn100 {
+    width: 100%;
+}
+
+.comment{
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 30px;
+}
+
+.head{
+    margin-bottom: 10px;
+}
+
+.user{
+    margin-right: 10px;
+}

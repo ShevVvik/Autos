@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/search.js}" defer="defer"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/profile">Autos</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/profile">Home</a></li>
+            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/orders">Search Orders</a></li>
+            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/dealers">Search Dealers</a></li>
+            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/clients">Search Clients</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+        </ul>
+    </div>
+</nav>
+
+<hr>
+<div class="container bootstrap snippets bootdey">
+    <button class="btn100 btn btn-primary" onclick="openForm()" id="openButton">Open search form</button>
+    <form id="searchForm" style="display: none" th:action="@{/search/dealers}" th:object="${searchDealersForm}" method="post">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="inputFirstName">First name</label>
+                <input type="text" class="form-control" id="inputFirstName" placeholder="First name" th:field="*{firstName}">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputPatronymic">Patronymic</label>
+                <input type="text" class="form-control" id="inputPatronymic" placeholder="Patronymic" th:field="*{patronymic}">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputLastName">Last name</label>
+                <input type="text" class="form-control" id="inputLastName" placeholder="Last name" th:field="*{lastName}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="inputEmail4">Email</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Email" th:field="*{email}">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputPhone">Phone</label>
+                <input type="text" class="form-control" id="inputPhone" placeholder="Phone" th:field="*{phone}">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputOrders">Orders type</label>
+                <select id="inputOrders" class="form-control" th:field="*{ordersType}">
+                    <option selected value="0">Any</option>
+                    <option value="1">Has active orders</option>
+                    <option value="2">Has entered orders</option>
+                    <option value="3">Has in progress orders</option>
+                    <option value="4">Has completed orders</option>
+                    <option value="5">Has cancelled orders</option>
+                    <option value="6">Does not have active orders</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+        <input type="button" class="btn btn-primary" onclick="closeForm()">Close form</input>
+    </form>
+    <hr>
+    <div class="row" >
+        <!--/col-3-->
+        <div class="col-sm-9" style="width: 100%">
+            <div class="tab-content">
+                <div class="tab-pane active" id="home">
+                    <div class="table-responsive table-back">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>#</th>
+                                <th>First name</th>
+                                <th>Patronymic</th>
+                                <th>Last name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Entered orders</th>
+                                <th>In progress orders</th>
+                                <th>Cancelled orders</th>
+                                <th>Completed orders</th>
+                            </tr>
+                            </thead>
+                            <tbody id="items">
+                            <tr th:each="dealer, state: ${result}">
+                                <td>
+                                    <a th:href="@{/dealers/} + ${dealer.id}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
+                                            <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                                <td th:text="${state.count}">1</td>
+                                <td th:text="${dealer.firstName}">Tayota Mark 2</td>
+                                <td th:text="${dealer.patronymic}"></td>
+                                <td th:text="${dealer.lastName}">09.12.2020</td>
+                                <td th:text="${dealer.email}">Entering</td>
+                                <td th:text="${dealer.phone}">200000</td>
+                                <td th:text="${dealer.enteredOrders}">200000</td>
+                                <td th:text="${dealer.inProgressOrders}">200000</td>
+                                <td th:text="${dealer.cancelledOrders}">200000</td>
+                                <td th:text="${dealer.completedOrders}">200000</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4 text-center">
+                                <ul class="pagination" id="myPager"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/table-resp-->
+                    <hr>
+                </div>
+            </div>
+            <!--/tab-content-->
+        </div>
+        <!--/col-9-->
+    </div>
+    <!--/row-->
+</div>
+</body>
+</html>

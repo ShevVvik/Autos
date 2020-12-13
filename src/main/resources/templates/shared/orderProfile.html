@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/profile">Autos</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/profile">Home</a></li>
+            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/orders">Search Orders</a></li>
+            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/dealers">Search Dealers</a></li>
+            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/clients">Search Clients</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container bootstrap snippets bootdey">
+    <div class="row">
+        <div class="col-sm-10">
+            <h1>Order</h1></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <!--left col-->
+            <ul class="list-group">
+                <li class="list-group-item text-muted">Order</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Number</strong></span> <span th:text="${order.id}">12312</span></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Dealer</strong></span> <span  th:text="${order.dealer}">empty</span></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Client</strong></span> <span th:text="${order.client}">Sheviakov</span></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Date start</strong></span> <span th:text="${order.dateStart}">23.11.2020</span></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Date end</strong></span> <span th:text="${order.dateEnd}">empty</span></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Status</strong></span> <span th:text="${order.status}">Entered</span></li>
+            </ul>
+
+            <ul class="list-group">
+                <li class="list-group-item text-muted">Actions<i class="fa fa-dashboard fa-1x"></i></li>
+                <li th:if="${role} == 'ROLE_DEALER' and ${order.status} == 'Entered'" class="list-group-item"><div><a href="/">Cancel order</a></div></li>
+                <li th:if="${role} == 'ROLE_DEALER' and !(${order.status} == 'Cancelled' or ${order.status} == 'Completed')" class="list-group-item"><div><a href="/">Assign to me</a></div></li>
+                <li th:if="${role} == 'ROLE_DEALER' and ${order.status} == 'Entered' and ${order.dealer} != ' '" class="list-group-item">
+                    <div><a href="/">Move in progress</a></div></li>
+                <li th:if="${role} == 'ROLE_DEALER' and ${order.status} == 'In progress' and ${order.dealer} != ' '" class="list-group-item">
+                    <div><a href="/">Complete</a></div></li>
+            </ul>
+
+            <ul class="list-group">
+                <li class="list-group-item text-muted">Price</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Client price</strong></span> <span th:text="${order.price}">12312</span></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Dealer percent</strong></span> <span  th:text="${order.percent}">empty</span></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>Full price</strong></span> <span th:text="${order.fullPrice}">Sheviakov</span></li>
+            </ul>
+
+        </div>
+        <!--/col-3-->
+        <div class="col-sm-9">
+
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#home" data-toggle="tab">Details</a></li>
+                <li><a href="#messages" data-toggle="tab">Comments</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="home">
+                    <div class="table-responsive table-back">
+                        <h4>Dealer Details</h4>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>First name</th>
+                                <th>Patronymic</th>
+                                <th>Last name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                            </thead>
+                            <tbody id="clientItems">
+                            <tr>
+                                <td>
+                                    <a th:href="@{/dealers/} + ${order.dealerId}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
+                                            <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                                <td th:text="${order.dealerFirstName}">Tayota Mark 2</td>
+                                <td th:text="${order.dealerPatronymic}">Tayota Mark 2</td>
+                                <td th:text="${order.dealerLastName}">Tayota Mark 2</td>
+                                <td th:text="${order.dealerEmail}">Tayota Mark 2</td>
+                                <td th:text="${order.dealerPhone}">Tayota Mark 2</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <h4>Client Details</h4>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>First name</th>
+                                <th>Patronymic</th>
+                                <th>Last name</th>
+                                <th>City</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                            </thead>
+                            <tbody id="dealerItems">
+                            <tr>
+                                <td>
+                                    <a th:href="@{/clients/} + ${order.clientId}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
+                                            <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                                <td th:text="${order.clientFirstName}">Tayota Mark 2</td>
+                                <td th:text="${order.clientPatronymic}">Tayota Mark 2</td>
+                                <td th:text="${order.clientLastName}">Tayota Mark 2</td>
+                                <td th:text="${order.city}">Tayota Mark 2</td>
+                                <td th:text="${order.clientEmail}">Tayota Mark 2</td>
+                                <td th:text="${order.clientPhone}">Tayota Mark 2</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <h4>Auto Details</h4>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Brand</th>
+                                <th>Model</th>
+                                <th>Date</th>
+                                <th>Mileage</th>
+                                <th>VIN</th>
+                                <th>Car number</th>
+                            </tr>
+                            </thead>
+                            <tbody id="autoItems">
+                            <tr>
+                                <td th:text="${order.brand}">Tayota Mark 2</td>
+                                <td th:text="${order.model}">Tayota Mark 2</td>
+                                <td th:text="${order.date}">Tayota Mark 2</td>
+                                <td th:text="${order.mileage}">Tayota Mark 2</td>
+                                <td th:text="${order.vin}">Tayota Mark 2</td>
+                                <td th:text="${order.carNumber}">Tayota Mark 2</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--/table-resp-->
+                    <hr>
+
+                </div>
+                <!--/tab-pane-->
+                <div class="tab-pane" id="messages" style="padding-top: 10px">
+                    <div class="row comment">
+                        <div class="head">
+                            <small><strong class='user'>Diablo25</strong> 30.10.2017 12:13</small>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non lorem elementum, accumsan magna sed, faucibus mauris. Nulla pellentesque ante nibh, ac hendrerit ante fermentum sed. Nunc in libero dictum, porta nibh pellentesque, ultrices dolor. Curabitur nunc ipsum, blandit vel aliquam id, aliquam vel velit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed sit amet mi dignissim, pretium justo non, lacinia libero. Nulla facilisi. Donec id sem velit. </p>
+                    </div>
+                    <div class="row comment">
+                        <div class="head">
+                            <small><strong class='user'>Giesche</strong> 30.10.2017 12:13</small>
+                        </div>
+                        <p>Praesent molestie ante nec metus convallis aliquam. Ut aliquam tincidunt mollis. Maecenas et ex sit amet est vehicula ultrices sed sit amet elit. Suspendisse potenti. Aenean et quam ut purus convallis porttitor. Mauris porttitor pretium elementum. Duis blandit elit tincidunt ipsum ultricies, ut faucibus lorem facilisis. Proin ipsum turpis, pharetra in lorem ac, porta ullamcorper velit. Proin gravida odio eget elit ultricies sodales. Vivamus vel tincidunt ligula. Proin pulvinar pellentesque velit eget luctus. Aliquam vitae enim ut purus vestibulum sollicitudin sit amet eget lacus. Nunc tempus fringilla tincidunt. </p>
+                    </div>
+                    <form>
+                        <div class="form-group" style="margin: 10px">
+                            <label for="comment">Your Comment</label>
+                            <textarea id="comment" name="comment" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" style="margin-left: 10px; margin-bottom: 10px" class="btn btn-default">Send</button>
+                    </form>
+
+                </div>
+            </div>
+            <!--/tab-pane-->
+        </div>
+        <!--/tab-content-->
+
+    </div>
+    <!--/col-9-->
+</div>
+<!--/row-->
+</div>
+</body>
+</html>

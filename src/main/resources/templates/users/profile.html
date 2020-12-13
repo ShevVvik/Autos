@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Client</h2>
+<table>
+    <tbody>
+    <tr>
+        <td><strong>First Name:</strong></td>
+        <td><span th:text="${user.firstName}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Sur Name:</strong></td>
+        <td><span th:text="${user.surName}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>Last Name:</strong></td>
+        <td><span th:text="${user.lastName}"></span></td>
+    </tr>
+    <tr>
+        <td><strong>City:</strong></td>
+        <td><span th:text="${user.City}"></span></td>
+    </tr>
+    </tbody>
+</table>
+<h2>Offers:</h2>
+
+<ul id="newsList">
+    <li th:each="offer, st: ${offers}">
+        <div>
+            <strong>Client:</strong>
+            <span th:text="${offer.client.lastName} + @{ } + ${user.firstName} + @{ } + ${user.surName}">Sheviakov Dmitrii Sergeevich</span>
+        </div>
+        <div>
+            <strong>Dealer:</strong>
+            <span th:text="${offer.client.lastName} + @{ } + ${user.firstName} + @{ } + ${user.surName}">Sheviakov Dmitrii Sergeevich</span>
+        </div>
+        <div>
+            <strong>Auto:</strong>
+            <span th:text="${offer.client.lastName} + @{ } + ${user.firstName} + @{ } + ${user.surName}">Nissan 180SX</span>
+        </div>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td><strong>Status:</strong></td>
+                    <td><span th:text="${offer.client.lastName} + @{ } + ${user.firstName} + @{ } + ${user.surName}">Entering</span></td>
+                    <td><strong>Date Start:</strong></td>
+                    <td><span th:text="${offer.client.lastName} + @{ } + ${user.firstName} + @{ } + ${user.surName}">24.01.1990</span></td>
+                    <td><strong>Date End:</strong></td>
+                    <td><span th:text="${offer.client.lastName} + @{ } + ${user.firstName} + @{ } + ${user.surName}">24.01.1990</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </li>
+</ul>
+</body>
+</html>

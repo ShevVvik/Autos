@@ -2,11 +2,8 @@ package com.shevvvik.autos.database.connection;
 
 
 import com.shevvvik.autos.database.StoredProcedureList;
-import com.shevvvik.autos.services.entities.ClientProfile;
-import com.shevvvik.autos.services.entities.ClientsOrder;
 import com.shevvvik.autos.services.entities.DealerProfile;
 import com.shevvvik.autos.services.entities.DealersOrder;
-import com.shevvvik.autos.web.forms.OrderForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

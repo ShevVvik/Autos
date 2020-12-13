@@ -1,12 +1,9 @@
 package com.shevvvik.autos.database.connection;
 
 import com.shevvvik.autos.database.StoredProcedureList;
-import com.shevvvik.autos.services.ClientsLogic;
 import com.shevvvik.autos.services.entities.ClientProfile;
 import com.shevvvik.autos.services.entities.ClientsOrder;
-import com.shevvvik.autos.web.forms.OrderForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
@@ -91,7 +88,7 @@ public class JDBCConnection {
                 clientsOrder.setAuto(resultSet.getString(2));
                 clientsOrder.setDateStart(resultSet.getDate(3).toString());
                 clientsOrder.setDateEnd(resultSet.getDate(4) != null
-                        ? (resultSet.getDate(4).toString()) : null);
+                        ? (resultSet.getDate(4).toString()) : " ");
                 clientsOrder.setStatus(resultSet.getString(5));
                 clientsOrder.setPrice(resultSet.getInt(6));
                 clientsOrder.setDealerId(resultSet.getInt(7));

@@ -29,6 +29,9 @@
 </nav>
 
 <div class="container bootstrap snippets bootdey">
+    <div th:if="${error} == true" class="alert alert-danger" role="alert">
+        Change status for orders was rejected!
+    </div>
     <div class="row">
         <div class="col-sm-10">
             <h1>Order</h1></div>
@@ -48,12 +51,12 @@
 
             <ul class="list-group">
                 <li class="list-group-item text-muted">Actions<i class="fa fa-dashboard fa-1x"></i></li>
-                <li th:if="${role} == 'ROLE_DEALER' and ${order.status} == 'Entered'" class="list-group-item"><div><a href="/">Cancel order</a></div></li>
-                <li th:if="${role} == 'ROLE_DEALER' and !(${order.status} == 'Cancelled' or ${order.status} == 'Completed')" class="list-group-item"><div><a href="/">Assign to me</a></div></li>
+                <li th:if="${order.status} == 'Entered' or (${order.status} == 'In progress' and ${role} == 'ROLE_DEALER')" class="list-group-item"><div><a th:href="@{/orders/} + ${order.id} + @{/cancel}">Cancel order</a></div></li>
+                <li th:if="${role} == 'ROLE_DEALER' and !(${order.status} == 'Cancelled' or ${order.status} == 'Completed')" class="list-group-item"><div><a th:href="@{/orders/} + ${order.id} + @{/assign}">Assign to me</a></div></li>
                 <li th:if="${role} == 'ROLE_DEALER' and ${order.status} == 'Entered' and ${order.dealer} != ' '" class="list-group-item">
-                    <div><a href="/">Move in progress</a></div></li>
+                    <div><a th:href="@{/orders/} + ${order.id} + @{/start}">Move in progress</a></div></li>
                 <li th:if="${role} == 'ROLE_DEALER' and ${order.status} == 'In progress' and ${order.dealer} != ' '" class="list-group-item">
-                    <div><a href="/">Complete</a></div></li>
+                    <div><a th:href="@{/orders/} + ${order.id} + @{/complete}">Complete</a></div></li>
             </ul>
 
             <ul class="list-group">
@@ -87,7 +90,7 @@
                             </tr>
                             </thead>
                             <tbody id="clientItems">
-                            <tr>
+                            <tr th:if="${order.dealerId} != 0">
                                 <td>
                                     <a th:href="@{/dealers/} + ${order.dealerId}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">

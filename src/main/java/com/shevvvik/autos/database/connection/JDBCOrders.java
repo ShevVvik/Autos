@@ -47,10 +47,10 @@ public class JDBCOrders {
             if (resultSet.next()) {
                 orderProfile.setId(resultSet.getInt(1));
                 orderProfile.setClient(resultSet.getString(2));
-                orderProfile.setDealer(resultSet.getString(3));
+                orderProfile.setDealer(resultSet.getString(3) != null ? resultSet.getString(3) : " ");
                 orderProfile.setDateStart(resultSet.getDate(4).toString());
                 orderProfile.setDateEnd(resultSet.getDate(5) != null
-                        ? (resultSet.getDate(5).toString()) : null);
+                        ? (resultSet.getDate(5).toString()) : " ");
                 orderProfile.setStatus(resultSet.getString(6));
 
                 orderProfile.setPrice(resultSet.getInt(7));
@@ -92,6 +92,15 @@ public class JDBCOrders {
         CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.ASSIGN_ORDER);
         callableStatement.setInt(1, id);
         callableStatement.setString(2, username);
+        callableStatement.execute();
+        connection.close();
+    }
+
+    public void changeStatus(Integer id, Integer status) throws SQLException {
+        Connection connection = dataSource.getConnection();
+        CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.CHANGE_ORDER_STATUS);
+        callableStatement.setInt(1, id);
+        callableStatement.setInt(2, status);
         callableStatement.execute();
         connection.close();
     }

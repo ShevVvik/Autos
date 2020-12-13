@@ -31,6 +31,9 @@
 
 <hr>
 <div class="container bootstrap snippets bootdey">
+    <div th:if="${error} == true" class="alert alert-danger" role="alert">
+        Wrong parameters! Please check search parameters!
+    </div>
     <button class="btn100 btn btn-primary" onclick="openForm()" id="openButton">Open search form</button>
     <form id="searchForm" style="display: none" th:action="@{/search/dealers}" th:object="${searchDealersForm}" method="post">
         <div class="form-row">

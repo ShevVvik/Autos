@@ -22,5 +22,7 @@ public class StoredProcedureList {
 
     public static final String GET_ORDER_PROFILE = "{ call getOrderProfileById(?) }";
     public static final String ASSIGN_ORDER = "{ call assignOrder(?, ?) }";
+    public static final String CHANGE_ORDER_STATUS = "{ call changeOrderStatus(?, ?) }";
 
+    public static final String GET_ORDER_STATUS = "{ call getOrderStatus(?) }";
 }

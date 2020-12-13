@@ -5,6 +5,7 @@ import com.shevvvik.autos.services.ServiceUtils;
 import com.shevvvik.autos.services.entities.SearchClientEntity;
 import com.shevvvik.autos.services.entities.SearchDealerEntity;
 import com.shevvvik.autos.services.entities.SearchOfferEntity;
+import com.shevvvik.autos.services.validation.SearchValidator;
 import com.shevvvik.autos.web.forms.SearchClientsForm;
 import com.shevvvik.autos.web.forms.SearchDealersForm;
 import com.shevvvik.autos.web.forms.SearchOrdersForm;
@@ -29,12 +30,16 @@ public class SearchController {
     @Autowired
     private SearchService searchService;
 
+    @Autowired
+    private SearchValidator validator;
+
     @GetMapping("/search/clients")
     public String searchClients(Model model, SearchClientsForm searchForm) {
         String role = "ROLE_CLIENT";
         for(GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             role = grantedAuthority.getAuthority();
         }
+        model.addAttribute("error", false);
         model.addAttribute("result", new ArrayList<SearchClientEntity>());
         model.addAttribute("cities", serviceUtils.getCities());
         model.addAttribute("role", role);
@@ -48,11 +53,21 @@ public class SearchController {
         for(GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             role = grantedAuthority.getAuthority();
         }
-        List<SearchClientEntity> result = searchService.searchClients(searchForm);
-        model.addAttribute("result", result);
-        model.addAttribute("cities", serviceUtils.getCities());
-        model.addAttribute("role", role);
-        model.addAttribute("searchClientsForm", searchForm);
+
+        if (!validator.checkSearchClientForm(searchForm)) {
+            model.addAttribute("error", true);
+            model.addAttribute("result", new ArrayList<SearchClientEntity>());
+            model.addAttribute("cities", serviceUtils.getCities());
+            model.addAttribute("role", role);
+            model.addAttribute("searchClientsForm", searchForm);
+        } else {
+            List<SearchClientEntity> result = searchService.searchClients(searchForm);
+            model.addAttribute("error", false);
+            model.addAttribute("result", result);
+            model.addAttribute("cities", serviceUtils.getCities());
+            model.addAttribute("role", role);
+            model.addAttribute("searchClientsForm", searchForm);
+        }
         return "/dealers/search/searchClients";
     }
 
@@ -62,6 +77,7 @@ public class SearchController {
         for(GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             role = grantedAuthority.getAuthority();
         }
+        model.addAttribute("error", false);
         model.addAttribute("result", new ArrayList<SearchDealerEntity>());
         model.addAttribute("role", role);
         model.addAttribute("searchDealersForm", searchForm);
@@ -74,10 +90,18 @@ public class SearchController {
         for(GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             role = grantedAuthority.getAuthority();
         }
-        List<SearchDealerEntity> result = searchService.searchDealers(searchForm);
-        model.addAttribute("result", result);
-        model.addAttribute("role", role);
-        model.addAttribute("searchDealersForm", searchForm);
+        if (!validator.checkSearchDealerForm(searchForm)) {
+            model.addAttribute("error", true);
+            model.addAttribute("result", new ArrayList<SearchDealerEntity>());
+            model.addAttribute("role", role);
+            model.addAttribute("searchDealersForm", searchForm);
+        } else {
+            model.addAttribute("error", false);
+            List<SearchDealerEntity> result = searchService.searchDealers(searchForm);
+            model.addAttribute("result", result);
+            model.addAttribute("role", role);
+            model.addAttribute("searchDealersForm", searchForm);
+        }
         return "/dealers/search/searchDealers";
     }
 
@@ -87,7 +111,9 @@ public class SearchController {
         for(GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             role = grantedAuthority.getAuthority();
         }
+        model.addAttribute("error", false);
         model.addAttribute("result", new ArrayList<SearchOfferEntity>());
+        model.addAttribute("cities", serviceUtils.getCities());
         model.addAttribute("role", role);
         model.addAttribute("searchOffersForm", searchForm);
         return "/dealers/search/searchOffers";
@@ -99,10 +125,20 @@ public class SearchController {
         for(GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             role = grantedAuthority.getAuthority();
         }
-        List<SearchOfferEntity> result = searchService.searchOffersDetailed(searchForm);
-        model.addAttribute("result", result);
-        model.addAttribute("role", role);
-        model.addAttribute("searchDealersForm", searchForm);
+        if (!validator.checkSearchOffersForm(searchForm)) {
+            model.addAttribute("error", true);
+            model.addAttribute("result", new ArrayList<SearchOfferEntity>());
+            model.addAttribute("cities", serviceUtils.getCities());
+            model.addAttribute("role", role);
+            model.addAttribute("searchOffersForm", searchForm);
+        } else {
+            model.addAttribute("error", false);
+            List<SearchOfferEntity> result = searchService.searchOffersDetailed(searchForm);
+            model.addAttribute("cities", serviceUtils.getCities());
+            model.addAttribute("result", result);
+            model.addAttribute("role", role);
+            model.addAttribute("searchDealersForm", searchForm);
+        }
         return "/dealers/search/searchOffers";
     }
 

@@ -1,5 +1,6 @@
 package com.shevvvik.autos.services;
 
+import com.shevvvik.autos.database.StatusConstants;
 import com.shevvvik.autos.database.connection.JDBCOrders;
 import com.shevvvik.autos.services.entities.OrderProfile;
 import com.shevvvik.autos.web.forms.OrderForm;
@@ -47,7 +48,6 @@ public class OrdersLogic {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-
         return orderProfile;
     }
 
@@ -62,5 +62,21 @@ public class OrdersLogic {
             exception.printStackTrace();
         }
 
+    }
+
+    public void completeOrder(String id) {
+        try {
+            jdbcOrders.changeStatus(Integer.valueOf(id), StatusConstants.STATUS_COMPLETED);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public void startOrder(String id) {
+        try {
+            jdbcOrders.changeStatus(Integer.valueOf(id), StatusConstants.STATUS_IN_PROGRESS);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
     }
 }

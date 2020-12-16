@@ -6,7 +6,7 @@ public class SearchClientsForm {
     private String patronymic;
     private String lastName;
     private String address;
-    private Integer phone;
+    private String phone;
     private Integer city;
     private String email;
 
@@ -42,11 +42,11 @@ public class SearchClientsForm {
         this.address = address;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

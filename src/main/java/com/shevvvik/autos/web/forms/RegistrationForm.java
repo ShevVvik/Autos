@@ -11,7 +11,7 @@ public class RegistrationForm {
     private String lastName;
     private Integer city;
     private String address;
-    private Long phone;
+    private String phone;
 
     public String getLogin() {
         return login;
@@ -85,11 +85,11 @@ public class RegistrationForm {
         this.address = address;
     }
 
-    public Long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 }

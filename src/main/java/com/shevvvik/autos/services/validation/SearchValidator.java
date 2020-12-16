@@ -38,9 +38,9 @@ public class SearchValidator {
             }
         }
 
-        if (searchForm.getPhone() != null && searchForm.getPhone() != 0) {
+        if (searchForm.getPhone() != null && !searchForm.getPhone().equals("")) {
             Pattern pattern = Pattern.compile("^\\d{10}$");
-            Matcher matcher = pattern.matcher(searchForm.getPhone().toString());
+            Matcher matcher = pattern.matcher(searchForm.getPhone());
             if (!matcher.matches()) {
                 return false;
             }
@@ -55,7 +55,7 @@ public class SearchValidator {
             if(!validateEmail(searchForm.getEmail())) return false;
         }
 
-        if (searchForm.getPhone() != null && searchForm.getPhone() != 0) {
+        if (searchForm.getPhone() != null && !searchForm.getPhone().equals("")) {
             if(!validatePhone(searchForm.getPhone().toString())) return false;
         }
 
@@ -121,7 +121,7 @@ public class SearchValidator {
     }
 
     private boolean validatePhone(String phone) {
-        Pattern pattern = Pattern.compile("^\\d{10}$");
+        Pattern pattern = Pattern.compile("^\\d{11}$");
         Matcher matcher = pattern.matcher(phone);
         return matcher.matches();
     }

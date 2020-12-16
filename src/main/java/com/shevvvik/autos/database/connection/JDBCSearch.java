@@ -33,7 +33,7 @@ public class JDBCSearch {
         callableStatement.setString(3, searchForm.getPatronymic());
         callableStatement.setInt(4, searchForm.getCity());
         callableStatement.setString(5, searchForm.getAddress());
-        callableStatement.setInt(6, searchForm.getPhone());
+        callableStatement.setInt(6, Integer.valueOf(searchForm.getPhone()));
         callableStatement.setString(7, searchForm.getEmail());
         try (ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
@@ -63,7 +63,7 @@ public class JDBCSearch {
         callableStatement.setString(1, searchForm.getFirstName());
         callableStatement.setString(2, searchForm.getLastName());
         callableStatement.setString(3, searchForm.getPatronymic());
-        callableStatement.setInt(4, searchForm.getPhone());
+        callableStatement.setInt(4, Integer.valueOf(searchForm.getPhone()));
         callableStatement.setInt(5, searchForm.getOrdersType());
         callableStatement.setString(6, searchForm.getEmail());
         try (ResultSet resultSet = callableStatement.executeQuery()) {

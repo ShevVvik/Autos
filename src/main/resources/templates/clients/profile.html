@@ -76,7 +76,7 @@
                                 <th>Date end</th>
                                 <th>Status</th>
                                 <th>Price</th>
-                                <th>Cancel</th>
+                                <th th:if="${role} != 'ROLE_DEALER'">Cancel</th>
                             </tr>
                             </thead>
                             <tbody id="items">
@@ -96,7 +96,7 @@
                                 <td th:text="${order.dateEnd}"></td>
                                 <td th:text="${order.status}">Entering</td>
                                 <td th:text="${order.price}">200000</td>
-                                <td th:if="${order.cancel} == true"><a th:href="@{/orders/cancel/} + ${order.id}">Cancel</a></td>
+                                <td th:if="${role} != 'ROLE_DEALER' and ${order.cancel} == true"><a th:href="@{/orders/cancel/} + ${order.id}">Cancel</a></td>
                             </tr>
                             </tbody>
                         </table>

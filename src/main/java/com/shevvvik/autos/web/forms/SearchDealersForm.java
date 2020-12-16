@@ -5,7 +5,7 @@ public class SearchDealersForm {
     private String firstName;
     private String patronymic;
     private String lastName;
-    private Integer phone;
+    private String phone;
     private String email;
     private Integer ordersType;
 
@@ -33,11 +33,11 @@ public class SearchDealersForm {
         this.lastName = lastName;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

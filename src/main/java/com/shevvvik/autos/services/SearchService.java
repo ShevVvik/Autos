@@ -30,7 +30,7 @@ public class SearchService {
         searchForm.setFirstName(searchForm.getFirstName() == null ? "" : searchForm.getFirstName().trim());
         searchForm.setLastName(searchForm.getLastName() == null ? "" : searchForm.getLastName().trim());
         searchForm.setPatronymic(searchForm.getPatronymic() == null ? "" : searchForm.getPatronymic().trim());
-        searchForm.setPhone(searchForm.getPhone() == null ? 0 : searchForm.getPhone());
+        searchForm.setPhone(searchForm.getPhone() == null ? "" : searchForm.getPhone());
 
         try {
             result = jdbcSearch.searchClientsByForm(searchForm);
@@ -47,7 +47,7 @@ public class SearchService {
         searchForm.setFirstName(searchForm.getFirstName() == null ? "" : searchForm.getFirstName().trim());
         searchForm.setLastName(searchForm.getLastName() == null ? "" : searchForm.getLastName().trim());
         searchForm.setPatronymic(searchForm.getPatronymic() == null ? "" : searchForm.getPatronymic().trim());
-        searchForm.setPhone(searchForm.getPhone() == null ? 0 : searchForm.getPhone());
+        searchForm.setPhone(searchForm.getPhone() == null ? "" : searchForm.getPhone());
         searchForm.setOrdersType(searchForm.getOrdersType() == null ? 0 : searchForm.getOrdersType());
         try {
             result = jdbcSearch.searchDealersBySearchForm(searchForm);

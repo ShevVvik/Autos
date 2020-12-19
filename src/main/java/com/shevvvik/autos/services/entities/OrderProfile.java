@@ -1,5 +1,7 @@
 package com.shevvvik.autos.services.entities;
 
+import java.util.List;
+
 public class OrderProfile {
 
     private Integer id;
@@ -34,6 +36,8 @@ public class OrderProfile {
     private Integer mileage;
     private String vin;
     private String carNumber;
+
+    private List<CommentEntity> comments;
 
     public Integer getId() {
         return id;
@@ -257,5 +261,13 @@ public class OrderProfile {
 
     public void setCarNumber(String carNumber) {
         this.carNumber = carNumber;
+    }
+
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentEntity> comments) {
+        this.comments = comments;
     }
 }

@@ -3,6 +3,7 @@ package com.shevvvik.autos.services;
 import com.shevvvik.autos.database.StatusConstants;
 import com.shevvvik.autos.database.connection.JDBCOrders;
 import com.shevvvik.autos.services.entities.OrderProfile;
+import com.shevvvik.autos.web.forms.CommentForm;
 import com.shevvvik.autos.web.forms.OrderForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -78,5 +79,20 @@ public class OrdersLogic {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public void addComment(CommentForm commentForm) {
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+        commentForm.setUsername(username);
+
+        try {
+            jdbcOrders.addComment(commentForm);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+
     }
 }

@@ -26,4 +26,7 @@ public class StoredProcedureList {
 
     public static final String GET_ORDER_STATUS = "{ ? = call getOrderStatus(?) }";
     public static final String CHECK_LOGIN = "{ ? = call checkLogin(?) }";
+
+    public static final String ADD_COMMENT = "{ call addCommentToOrder(?, ?, ?) }";
+    public static final String GET_ALL_COMMENTS_FOR_OFFER = "{ call getCommentsByOffer(?) }";
 }

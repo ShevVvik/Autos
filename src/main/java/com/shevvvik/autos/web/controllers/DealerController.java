@@ -2,6 +2,8 @@ package com.shevvvik.autos.web.controllers;
 
 import com.shevvvik.autos.services.DealersLogic;
 import com.shevvvik.autos.services.entities.DealerProfile;
+import com.shevvvik.autos.services.logger.Logger;
+import com.shevvvik.autos.services.logger.LoggerConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

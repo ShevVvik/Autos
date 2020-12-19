@@ -35,6 +35,9 @@ body {
     margin-right: 20px;
     margin-left: 20px;
     margin-bottom: 30px;
+    border-bottom-style: dashed;
+    border-bottom-color: black;
+    border-bottom-width: 1px;
 }
 
 .head{

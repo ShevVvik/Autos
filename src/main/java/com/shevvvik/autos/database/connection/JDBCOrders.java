@@ -1,13 +1,19 @@
 package com.shevvvik.autos.database.connection;
 
 import com.shevvvik.autos.database.StoredProcedureList;
+import com.shevvvik.autos.services.entities.CommentEntity;
 import com.shevvvik.autos.services.entities.OrderProfile;
+import com.shevvvik.autos.web.forms.CommentForm;
 import com.shevvvik.autos.web.forms.OrderForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 @Service
 public class JDBCOrders {
@@ -78,6 +84,8 @@ public class JDBCOrders {
                 orderProfile.setMileage(resultSet.getInt(26));
                 orderProfile.setVin(resultSet.getString(27));
                 orderProfile.setCarNumber(resultSet.getString(28));
+
+                orderProfile.setComments(getComments(orderProfile.getId()));
             }
         } catch (Exception e) {
             connection.close();
@@ -103,5 +111,38 @@ public class JDBCOrders {
         callableStatement.setInt(2, status);
         callableStatement.execute();
         connection.close();
+    }
+
+    public void addComment(CommentForm commentForm) throws SQLException {
+        Connection connection = dataSource.getConnection();
+        CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.ADD_COMMENT);
+        callableStatement.setString(1, commentForm.getUsername());
+        callableStatement.setInt(2, commentForm.getOrderId());
+        callableStatement.setString(3, commentForm.getText());
+        callableStatement.execute();
+        connection.close();
+    }
+
+    public List<CommentEntity> getComments(Integer id) throws SQLException {
+        List<CommentEntity> list = new ArrayList<>();
+        Connection connection = dataSource.getConnection();
+        CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.GET_ALL_COMMENTS_FOR_OFFER);
+        callableStatement.setInt(1, id);
+
+        try(ResultSet resultSet = callableStatement.executeQuery()) {
+            while (resultSet.next()) {
+                CommentEntity commentEntity = new CommentEntity();
+                commentEntity.setUser(resultSet.getString(1));
+                commentEntity.setMessage(resultSet.getString(2));
+                String pattern = "dd-M-yyyy hh:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale("en", "US"));
+                String date = simpleDateFormat.format(resultSet.getDate(3));
+                commentEntity.setDate(date);
+                list.add(commentEntity);
+            }
+        }
+
+        connection.close();
+        return list;
     }
 }

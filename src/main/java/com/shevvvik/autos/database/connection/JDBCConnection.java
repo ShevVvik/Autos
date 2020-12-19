@@ -32,7 +32,7 @@ public class JDBCConnection {
         callableStatement.setString(6, form.getLastName());
         callableStatement.setInt(7, form.getCity());
         callableStatement.setString(8, form.getAddress());
-        callableStatement.setLong(9, Long.valueOf(form.getPhone()));
+        callableStatement.setLong(9, Long.parseLong(form.getPhone()));
         callableStatement.execute();
         connection.close();
     }

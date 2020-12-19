@@ -91,6 +91,11 @@ public class SearchService {
 
         searchForm.setDateStartMin(searchForm.getDateStartMin().equals(date.toString()) ? "" : searchForm.getDateStartMin());
         searchForm.setDateStartMax(searchForm.getDateStartMax().equals(date.toString()) ? "" : searchForm.getDateStartMax());
+        searchForm.setMileageMin(searchForm.getMileageMin() == 0 ? null : searchForm.getMileageMin());
+        searchForm.setMileageMax(searchForm.getMileageMax() == -1 ? null : searchForm.getMileageMax());
+        searchForm.setPriceMin(searchForm.getPriceMin() == 0 ? null : searchForm.getPriceMin());
+        searchForm.setPriceMax(searchForm.getPriceMax() == 0 ? null : searchForm.getPriceMax());
+        searchForm.setDate(searchForm.getDate() == 0 ? null : searchForm.getDate());
         return result;
     }
 }

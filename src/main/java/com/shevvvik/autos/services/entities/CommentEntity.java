@@ -2,6 +2,8 @@ package com.shevvvik.autos.services.entities;
 
 public class CommentEntity {
 
+    private Integer id;
+    private String role;
     private String user;
     private String date;
     private String message;
@@ -28,5 +30,13 @@ public class CommentEntity {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -1,14 +1,18 @@
 package com.shevvvik.autos.services.logger;
 
-public class LoggerConstants {
+public enum LoggerConstants {
 
-    private static final String HELLO = "Hello!";
+    DEFAULT_OPERATION(1),
+    SEARCH_OPERATION(2),
+    CHANGE_ORDER_STATUS_OPERATION(3),
+    ASSIGN_ORDER_OPERATION(4),
+    LOG_IN_OPERATION(5),
+    REGISTRATION_OPERATION(6),
+    CREATE_ORDER_OPERATION(7);
 
-    private static final Integer ADD_CAR_TO_SALE = 1;
-    private static final Integer CANCEL_OFFER_BY_USER = 2;
-    private static final Integer CHANGE_OFFER_STATUS = 3;
-    private static final Integer ASSIGN_OFFER_BY_DEALER = 4;
-    private static final Integer REGISTER_CLIENT = 5;
-    private static final Integer LOGIN_USER = 6;
-
+    private Integer value;
+    LoggerConstants(Integer value){
+        this.value = value;
+    }
+    public Integer getValue(){ return value;}
 }

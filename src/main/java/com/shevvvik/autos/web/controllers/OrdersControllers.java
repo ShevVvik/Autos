@@ -3,6 +3,7 @@ package com.shevvvik.autos.web.controllers;
 import com.shevvvik.autos.services.OrdersLogic;
 import com.shevvvik.autos.services.entities.OrderProfile;
 import com.shevvvik.autos.services.validation.TransitionValidator;
+import com.shevvvik.autos.web.forms.CommentForm;
 import com.shevvvik.autos.web.forms.OrderForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,7 +35,10 @@ public class OrdersControllers {
     }
 
     @GetMapping({"/orders/{id}", "/orders/{id}/{error}"})
-    public String orderProfile(Model model, @PathVariable String id, @PathVariable(required = false) String error) {
+    public String orderProfile(Model model,
+                               @PathVariable String id,
+                               @PathVariable(required = false) String error,
+                               @ModelAttribute("commentForm") CommentForm commentForm) {
         String role = "ROLE_CLIENT";
         for(GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             role = grantedAuthority.getAuthority();
@@ -45,6 +49,7 @@ public class OrdersControllers {
             model.addAttribute("error", false);
         }
         OrderProfile orderProfile = ordersLogic.getOrderProfile(id);
+        model.addAttribute("commentForm", commentForm);
         model.addAttribute("order", orderProfile);
         model.addAttribute("role", role);
         return "/shared/orderProfile";
@@ -82,4 +87,13 @@ public class OrdersControllers {
         ordersLogic.createOrder(orderForm);
         return "redirect:/profile";
     }
+
+    @PostMapping("/orders/{id}/addComment")
+    public String addComment(Model model, @ModelAttribute("commentForm") CommentForm commentForm, @PathVariable String id) {
+        commentForm.setOrderId(Integer.valueOf(id));
+        ordersLogic.addComment(commentForm);
+        return "redirect:/profile";
+    }
+
+
 }

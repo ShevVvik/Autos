@@ -1,5 +1,6 @@
 package com.shevvvik.autos.web.controllers;
 
+import com.shevvvik.autos.configuration.exceptions.ObjectNotFound;
 import com.shevvvik.autos.services.OrdersLogic;
 import com.shevvvik.autos.services.entities.OrderProfile;
 import com.shevvvik.autos.services.validation.TransitionValidator;

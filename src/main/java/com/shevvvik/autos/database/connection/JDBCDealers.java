@@ -1,6 +1,7 @@
 package com.shevvvik.autos.database.connection;
 
 
+import com.shevvvik.autos.configuration.exceptions.ObjectNotFound;
 import com.shevvvik.autos.database.StoredProcedureList;
 import com.shevvvik.autos.services.entities.DealerProfile;
 import com.shevvvik.autos.services.entities.DealersOrder;
@@ -22,9 +23,10 @@ public class JDBCDealers {
         Connection connection = dataSource.getConnection();
         CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.GET_DEALER_PROFILE_BY_USERNAME);
         callableStatement.setString(1, username);
-        DealerProfile dealerProfile = new DealerProfile();
+        DealerProfile dealerProfile = null;
         try (ResultSet resultSet = callableStatement.executeQuery()) {
             if (resultSet.next()) {
+                dealerProfile = new DealerProfile();
                 Integer id = resultSet.getInt(1);
                 dealerProfile.setFirstName(resultSet.getString(2));
                 dealerProfile.setPatronymic(resultSet.getString(3));
@@ -40,6 +42,9 @@ public class JDBCDealers {
             throw e;
         }
         connection.close();
+        if (dealerProfile == null) {
+            throw new ObjectNotFound("Profile does not exist");
+        }
         return dealerProfile;
     }
 
@@ -75,9 +80,10 @@ public class JDBCDealers {
         Connection connection = dataSource.getConnection();
         CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.GET_DEALER_PROFILE_BY_ID);
         callableStatement.setInt(1, dealerId);
-        DealerProfile dealerProfile = new DealerProfile();
+        DealerProfile dealerProfile = null;
         try (ResultSet resultSet = callableStatement.executeQuery()) {
             if (resultSet.next()) {
+                dealerProfile = new DealerProfile();
                 Integer id = resultSet.getInt(1);
                 dealerProfile.setFirstName(resultSet.getString(2));
                 dealerProfile.setPatronymic(resultSet.getString(3));
@@ -93,6 +99,9 @@ public class JDBCDealers {
             throw e;
         }
         connection.close();
+        if (dealerProfile == null) {
+            throw new ObjectNotFound("Profile for dealer with id - " + dealerId + " does not exist");
+        }
         return dealerProfile;
     }
 }

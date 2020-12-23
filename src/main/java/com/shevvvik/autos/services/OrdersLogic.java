@@ -1,8 +1,11 @@
 package com.shevvvik.autos.services;
 
+import com.shevvvik.autos.configuration.exceptions.ObjectNotFound;
 import com.shevvvik.autos.database.StatusConstants;
 import com.shevvvik.autos.database.connection.JDBCOrders;
 import com.shevvvik.autos.services.entities.OrderProfile;
+import com.shevvvik.autos.services.logger.Logger;
+import com.shevvvik.autos.services.logger.LoggerConstants;
 import com.shevvvik.autos.web.forms.CommentForm;
 import com.shevvvik.autos.web.forms.OrderForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,9 @@ public class OrdersLogic {
     @Autowired
     private JDBCOrders jdbcOrders;
 
+    @Autowired
+    private Logger logger;
+
     public void cancelOrder(String id) {
         Integer orderId = Integer.valueOf(id);
         try {
@@ -24,6 +30,7 @@ public class OrdersLogic {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
+        logger.log(LoggerConstants.CHANGE_ORDER_STATUS_OPERATION, "Order - {?} was cancelled", id);
     }
 
     public void createOrder(OrderForm orderForm) {
@@ -39,6 +46,7 @@ public class OrdersLogic {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        logger.log(LoggerConstants.CREATE_ORDER_OPERATION, "New order was created");
     }
 
 
@@ -49,6 +57,7 @@ public class OrdersLogic {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
+        logger.log(LoggerConstants.DEFAULT_OPERATION, "Profile for order ({?}) was opened", id);
         return orderProfile;
     }
 
@@ -62,7 +71,7 @@ public class OrdersLogic {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-
+        logger.log(LoggerConstants.ASSIGN_ORDER_OPERATION, "Order - {?} was assigned to new dealer", id);
     }
 
     public void completeOrder(String id) {
@@ -71,6 +80,7 @@ public class OrdersLogic {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
+        logger.log(LoggerConstants.CHANGE_ORDER_STATUS_OPERATION, "Order - {?} was completed", id);
     }
 
     public void startOrder(String id) {
@@ -79,6 +89,7 @@ public class OrdersLogic {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
+        logger.log(LoggerConstants.CHANGE_ORDER_STATUS_OPERATION, "Order - {?} was started (Status in progress)", id);
     }
 
     public void addComment(CommentForm commentForm) {
@@ -93,6 +104,6 @@ public class OrdersLogic {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-
+        logger.log(LoggerConstants.DEFAULT_OPERATION, "New comment was added to order - {?}", commentForm.getOrderId().toString());
     }
 }

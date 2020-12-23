@@ -4,6 +4,8 @@ import com.shevvvik.autos.database.connection.JDBCSearch;
 import com.shevvvik.autos.services.entities.SearchClientEntity;
 import com.shevvvik.autos.services.entities.SearchDealerEntity;
 import com.shevvvik.autos.services.entities.SearchOfferEntity;
+import com.shevvvik.autos.services.logger.Logger;
+import com.shevvvik.autos.services.logger.LoggerConstants;
 import com.shevvvik.autos.web.forms.SearchClientsForm;
 import com.shevvvik.autos.web.forms.SearchDealersForm;
 import com.shevvvik.autos.web.forms.SearchOrdersForm;
@@ -21,6 +23,9 @@ public class SearchService {
     @Autowired
     private JDBCSearch jdbcSearch;
 
+    @Autowired
+    private Logger logger;
+
     public List<SearchClientEntity> searchClients(SearchClientsForm searchForm) {
         List<SearchClientEntity> result = new ArrayList<>();
 
@@ -37,7 +42,7 @@ public class SearchService {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-
+        logger.log(LoggerConstants.SEARCH_OPERATION, "Search clients operation");
         return result;
     }
 
@@ -54,6 +59,7 @@ public class SearchService {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
+        logger.log(LoggerConstants.SEARCH_OPERATION, "Search dealers operation");
         return result;
     }
 
@@ -96,6 +102,7 @@ public class SearchService {
         searchForm.setPriceMin(searchForm.getPriceMin() == 0 ? null : searchForm.getPriceMin());
         searchForm.setPriceMax(searchForm.getPriceMax() == 0 ? null : searchForm.getPriceMax());
         searchForm.setDate(searchForm.getDate() == 0 ? null : searchForm.getDate());
+        logger.log(LoggerConstants.SEARCH_OPERATION, "Search orders operation");
         return result;
     }
 }

@@ -17,7 +17,13 @@
             <a class="navbar-brand" href="/">Autos</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/profile">Home</a></li>
+            <ul class="nav navbar-nav">
+                <li th:if="${role} != 'ROLE_ADMIN'" class="active"><a href="/profile">Home</a></li>
+                <li th:if="${role} == 'ROLE_ADMIN'" class="active"><a href="/admin/logs">Logs</a></li>
+                <li><a th:if="${role} != 'ROLE_CLIENT'" href="/search/orders">Search Orders</a></li>
+                <li><a th:if="${role} != 'ROLE_CLIENT'" href="/search/dealers">Search Dealers</a></li>
+                <li><a th:if="${role} != 'ROLE_CLIENT'" href="/search/clients">Search Clients</a></li>
+            </ul>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="/registration"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>

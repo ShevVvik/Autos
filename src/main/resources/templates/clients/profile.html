@@ -17,10 +17,11 @@
             <a class="navbar-brand" href="/profile">Autos</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/profile">Home</a></li>
-            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/orders">Search Orders</a></li>
-            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/dealers">Search Dealers</a></li>
-            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/clients">Search Clients</a></li>
+            <li th:if="${role} != 'ROLE_ADMIN'" class="active"><a href="/profile">Home</a></li>
+            <li th:if="${role} == 'ROLE_ADMIN'" class="active"><a href="/admin/logs">Logs</a></li>
+            <li><a th:if="${role} != 'ROLE_CLIENT'" href="/search/orders">Search Orders</a></li>
+            <li><a th:if="${role} != 'ROLE_CLIENT'" href="/search/dealers">Search Dealers</a></li>
+            <li><a th:if="${role} != 'ROLE_CLIENT'" href="/search/clients">Search Clients</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
@@ -59,7 +60,7 @@
             <ul class="nav nav-tabs" id="myTab">
                 <li class="active"><a href="#home" data-toggle="tab">Orders</a></li>
                 <li th:if="${owner} == true"><a href="#messages" data-toggle="tab">Create order</a></li>
-                <li th:if="${owner} == true" ><a href="#settings" data-toggle="tab">Settings</a></li>
+                <!--<li th:if="${owner} == true" ><a href="#settings" data-toggle="tab">Settings</a></li>-->
             </ul>
 
             <div class="tab-content">
@@ -109,7 +110,6 @@
                     </div>
                     <!--/table-resp-->
                     <hr>
-
                 </div>
                 <!--/tab-pane-->
                 <div class="tab-pane" id="messages">
@@ -177,7 +177,7 @@
                     </form>
 
                 </div>
-                <!--/tab-pane-->
+                <!--/tab-pane--><!--
                 <div class="tab-pane" id="settings" th:if="${owner} == true">
                     <hr>
                     <form th:action="@{/client/edit}" th:object="${editForm}" method="post">
@@ -255,11 +255,10 @@
                     </form>
                 </div>
 
-            </div>
+            </div>-->
             <!--/tab-pane-->
         </div>
         <!--/tab-content-->
-
     </div>
     <!--/col-9-->
 </div>

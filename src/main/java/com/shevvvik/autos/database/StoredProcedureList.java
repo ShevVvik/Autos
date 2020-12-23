@@ -29,4 +29,6 @@ public class StoredProcedureList {
 
     public static final String ADD_COMMENT = "{ call addCommentToOrder(?, ?, ?) }";
     public static final String GET_ALL_COMMENTS_FOR_OFFER = "{ call getCommentsByOffer(?) }";
+
+    public static final String GET_LOG_EVENTS = "{ call getLogEvents(?, ?) }";
 }

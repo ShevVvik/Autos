@@ -1,5 +1,6 @@
 package com.shevvvik.autos.database.connection;
 
+import com.shevvvik.autos.configuration.exceptions.ObjectNotFound;
 import com.shevvvik.autos.database.StoredProcedureList;
 import com.shevvvik.autos.services.entities.ClientProfile;
 import com.shevvvik.autos.services.entities.ClientsOrder;
@@ -56,9 +57,10 @@ public class JDBCConnection {
         Connection connection = dataSource.getConnection();
         CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.GET_CLIENT_PROFILE);
         callableStatement.setString(1, username);
-        ClientProfile clientProfile = new ClientProfile();
+        ClientProfile clientProfile = null;
         try (ResultSet resultSet = callableStatement.executeQuery()) {
             if (resultSet.next()) {
+                clientProfile = new ClientProfile();
                 Integer id = resultSet.getInt(1);
                 clientProfile.setFirstName(resultSet.getString(2));
                 clientProfile.setPatronymic(resultSet.getString(3));
@@ -76,6 +78,11 @@ public class JDBCConnection {
             throw e;
         }
         connection.close();
+
+        if (clientProfile == null) {
+            throw new ObjectNotFound("Profile does not exist");
+        }
+
         return clientProfile;
     }
 
@@ -114,9 +121,10 @@ public class JDBCConnection {
         Connection connection = dataSource.getConnection();
         CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.GET_CLIENT_PROFILE_BY_ID);
         callableStatement.setInt(1, id);
-        ClientProfile clientProfile = new ClientProfile();
+        ClientProfile clientProfile = null;
         try (ResultSet resultSet = callableStatement.executeQuery()) {
             if (resultSet.next()) {
+                clientProfile = new ClientProfile();
                 clientProfile.setFirstName(resultSet.getString(2));
                 clientProfile.setPatronymic(resultSet.getString(3));
                 clientProfile.setLastName(resultSet.getString(4));
@@ -133,6 +141,9 @@ public class JDBCConnection {
             throw e;
         }
         connection.close();
+        if (clientProfile == null) {
+            throw new ObjectNotFound("Profile client with id " + id + " does not exist");
+        }
         return clientProfile;
     }
 }

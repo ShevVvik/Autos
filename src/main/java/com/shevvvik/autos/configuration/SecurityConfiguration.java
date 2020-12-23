@@ -32,12 +32,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/registration", "/login", "/js/**", "/css/**", "/img/**").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedPage("/access-denied")
                 .and().formLogin().loginPage("/login").failureUrl("/login?error=true").permitAll()
                 .defaultSuccessUrl("/profile")
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true);
+                .logoutSuccessUrl("/login").deleteCookies("JSESSIONID").invalidateHttpSession(true);
     }
 
     @Override

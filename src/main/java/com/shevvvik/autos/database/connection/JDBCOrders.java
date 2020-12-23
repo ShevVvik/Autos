@@ -1,5 +1,6 @@
 package com.shevvvik.autos.database.connection;
 
+import com.shevvvik.autos.configuration.exceptions.ObjectNotFound;
 import com.shevvvik.autos.database.StoredProcedureList;
 import com.shevvvik.autos.services.entities.CommentEntity;
 import com.shevvvik.autos.services.entities.OrderProfile;
@@ -45,12 +46,13 @@ public class JDBCOrders {
     }
 
     public OrderProfile getOrderProfileById(Integer id) throws SQLException {
-        OrderProfile orderProfile = new OrderProfile();
+        OrderProfile orderProfile = null;
         Connection connection = dataSource.getConnection();
         CallableStatement callableStatement = connection.prepareCall(StoredProcedureList.GET_ORDER_PROFILE);
         callableStatement.setInt(1, id);
         try (ResultSet resultSet = callableStatement.executeQuery()) {
             if (resultSet.next()) {
+                orderProfile = new OrderProfile();
                 orderProfile.setId(resultSet.getInt(1));
                 orderProfile.setClient(resultSet.getString(2));
                 orderProfile.setDealer(resultSet.getString(3) != null ? resultSet.getString(3) : " ");
@@ -90,6 +92,10 @@ public class JDBCOrders {
         } catch (Exception e) {
             connection.close();
             throw e;
+        }
+
+        if (orderProfile == null) {
+            throw new ObjectNotFound("Order does not exist");
         }
         connection.close();
         return orderProfile;

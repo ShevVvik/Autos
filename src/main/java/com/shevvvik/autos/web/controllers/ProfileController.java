@@ -1,5 +1,6 @@
 package com.shevvvik.autos.web.controllers;
 
+import com.shevvvik.autos.configuration.exceptions.ObjectNotFound;
 import com.shevvvik.autos.services.ClientsLogic;
 import com.shevvvik.autos.services.DealersLogic;
 import com.shevvvik.autos.services.entities.ClientProfile;

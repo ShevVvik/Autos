@@ -39,10 +39,6 @@ public class Logger {
             message = message.replaceFirst("\\{\\?}", args[counter]);
             counter++;
         }
-
-        System.out.println(message);
-
-/*
         String username = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -50,7 +46,7 @@ public class Logger {
 
         if (config.get(eventType)) {
             storeInDB(eventType, message, username);
-        }*/
+        }
     }
 
     public void setLogConfiguration(Map<LoggerConstants, Boolean> config) {

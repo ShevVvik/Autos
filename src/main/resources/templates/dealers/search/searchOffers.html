@@ -18,10 +18,11 @@
             <a class="navbar-brand" href="/profile">Autos</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/profile">Home</a></li>
-            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/orders">Search Orders</a></li>
-            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/dealers">Search Dealers</a></li>
-            <li><a th:if="${role} == 'ROLE_DEALER'" href="/search/clients">Search Clients</a></li>
+            <li th:if="${role} != 'ROLE_ADMIN'" class="active"><a href="/profile">Home</a></li>
+            <li th:if="${role} == 'ROLE_ADMIN'" class="active"><a href="/admin/logs">Logs</a></li>
+            <li><a th:if="${role} != 'ROLE_CLIENT'" href="/search/orders">Search Orders</a></li>
+            <li><a th:if="${role} != 'ROLE_CLIENT'" href="/search/dealers">Search Dealers</a></li>
+            <li><a th:if="${role} != 'ROLE_CLIENT'" href="/search/clients">Search Clients</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>

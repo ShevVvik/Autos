@@ -6,6 +6,7 @@ import com.shevvvik.autos.services.entities.OrderProfile;
 import com.shevvvik.autos.services.validation.TransitionValidator;
 import com.shevvvik.autos.web.forms.CommentForm;
 import com.shevvvik.autos.web.forms.OrderForm;
+import com.shevvvik.autos.web.forms.PriceForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,7 +40,8 @@ public class OrdersControllers {
     public String orderProfile(Model model,
                                @PathVariable String id,
                                @PathVariable(required = false) String error,
-                               @ModelAttribute("commentForm") CommentForm commentForm) {
+                               @ModelAttribute("commentForm") CommentForm commentForm,
+                               @ModelAttribute("priceForm") PriceForm priceForm) {
         String role = "ROLE_CLIENT";
         for(GrantedAuthority grantedAuthority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
             role = grantedAuthority.getAuthority();
@@ -93,8 +95,14 @@ public class OrdersControllers {
     public String addComment(Model model, @ModelAttribute("commentForm") CommentForm commentForm, @PathVariable String id) {
         commentForm.setOrderId(Integer.valueOf(id));
         ordersLogic.addComment(commentForm);
-        return "redirect:/profile";
+        return "redirect:/orders/" + id;
     }
 
+    @PostMapping("/orders/changePrice/{id}")
+    public String changePrice(Model model, @ModelAttribute("priceForm") PriceForm priceForm, @PathVariable String id) {
+        priceForm.setOrderId(Integer.valueOf(id));
+        ordersLogic.changePrice(priceForm);
+        return "redirect:/orders/" + id;
+    }
 
 }

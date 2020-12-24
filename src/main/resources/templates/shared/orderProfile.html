@@ -67,6 +67,22 @@
                 <li class="list-group-item text-right"><span class="pull-left"><strong>Full price</strong></span> <span th:text="${order.fullPrice}">Sheviakov</span></li>
             </ul>
 
+            <ul class="list-group" th:if="${role} == 'ROLE_DEALER' and !(${order.status} == 'Cancelled' or ${order.status} == 'Completed')">
+                <li class="list-group-item text-muted">Change price</li>
+                <form th:action="@{/orders/changePrice/} + ${order.id}" th:object="${priceForm}" method="post">
+                    <li class="list-group-item">
+                        <label>Client price</label>
+                        <input type="number" class="form-control" th:field="*{price}">
+                    </li>
+                    <li class="list-group-item">
+                        <label>Dealer percent</label>
+                        <input type="number" class="form-control" th:field="*{percent}">
+                    </li>
+                    <li class="list-group-item">
+                        <input type="submit" class="form-control" text="Submit">
+                    </li>
+                </form>
+            </ul>
         </div>
         <!--/col-3-->
         <div class="col-sm-9">

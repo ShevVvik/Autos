@@ -33,7 +33,7 @@ public class JDBCSearch {
         callableStatement.setString(3, searchForm.getPatronymic());
         callableStatement.setInt(4, searchForm.getCity());
         callableStatement.setString(5, searchForm.getAddress());
-        callableStatement.setInt(6, Integer.valueOf(searchForm.getPhone()));
+        callableStatement.setLong(6, Long.parseLong(searchForm.getPhone()));
         callableStatement.setString(7, searchForm.getEmail());
         try (ResultSet resultSet = callableStatement.executeQuery()) {
             while (resultSet.next()) {
@@ -43,7 +43,7 @@ public class JDBCSearch {
                 searchClientEntity.setPatronymic(resultSet.getString(3));
                 searchClientEntity.setLastName(resultSet.getString(4));
                 searchClientEntity.setCity(resultSet.getString(5));
-                searchClientEntity.setPhone(resultSet.getInt(6));
+                searchClientEntity.setPhone(resultSet.getLong(6));
                 searchClientEntity.setEmail(resultSet.getString(7));
                 result.add(searchClientEntity);
             }
@@ -63,7 +63,7 @@ public class JDBCSearch {
         callableStatement.setString(1, searchForm.getFirstName());
         callableStatement.setString(2, searchForm.getLastName());
         callableStatement.setString(3, searchForm.getPatronymic());
-        callableStatement.setInt(4, Integer.valueOf(searchForm.getPhone()));
+        callableStatement.setLong(4, Long.parseLong(searchForm.getPhone()));
         callableStatement.setInt(5, searchForm.getOrdersType());
         callableStatement.setString(6, searchForm.getEmail());
         try (ResultSet resultSet = callableStatement.executeQuery()) {
@@ -73,7 +73,7 @@ public class JDBCSearch {
                 searchDealerEntity.setFirstName(resultSet.getString(2));
                 searchDealerEntity.setPatronymic(resultSet.getString(3));
                 searchDealerEntity.setLastName(resultSet.getString(4));
-                searchDealerEntity.setPhone(resultSet.getInt(5));
+                searchDealerEntity.setPhone(resultSet.getLong(5));
                 searchDealerEntity.setEmail(resultSet.getString(6));
                 searchDealerEntity.setEnteredOrders(resultSet.getInt(7));
                 searchDealerEntity.setInProgressOrders(resultSet.getInt(8));

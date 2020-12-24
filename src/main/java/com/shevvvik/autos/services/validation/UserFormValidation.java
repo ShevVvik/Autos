@@ -20,43 +20,52 @@ public class UserFormValidation {
     @Autowired
     private ServiceUtils serviceUtils;
 
-    public boolean checkRegistrationForm(RegistrationForm form) {
-
+    public String checkRegistrationForm(RegistrationForm form) {
+        String errorMessage = "";
         Map<Integer, String> cities = serviceUtils.getCities();
         Integer loginCount = 0;
+        Integer emailCount = 0;
         try {
             loginCount = validation.checkLogin(form.getLogin());
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
+        try {
+            emailCount = validation.checkEmail(form.getEmail());
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
         if (loginCount != 0) {
-            return false;
+            errorMessage += "<span> - Login already used </span><br>";
+        }
+        if (emailCount != 0) {
+            errorMessage += "<span> - Email already used </span><br>";
         }
         if (!cities.keySet().contains(form.getCity())) {
-            return false;
+            errorMessage += "<span> - Wrong city </span><br>";
         }
         if (!form.getPassword().equals(form.getPasswordConfirm())) {
-            return false;
+            errorMessage += "<span> - Check password </span><br>";
         }
         if (form.getFirstName() == null || form.getFirstName().trim().equals("")) {
-            return false;
+            errorMessage += "<span> - Fill first name </span><br>";
         }
         if (form.getSurName() == null || form.getSurName().trim().equals("")) {
-            return false;
+            errorMessage += "<span> - Fill patronymic </span><br>";
         }
         if (form.getLastName() == null || form.getLastName().trim().equals("")) {
-            return false;
+            errorMessage += "<span> - Fill last name </span><br>";
         }
         if (form.getEmail() == null || validateEmail(form.getEmail().trim())) {
-            return false;
+            errorMessage += "<span> - Email not valid </span><br>";
         }
         if (form.getPhone() == null || validatePhone(form.getPhone())) {
-            return false;
+            errorMessage += "<span> - Phone not valid </span><br>";
         }
         if (form.getAddress() == null || form.getAddress().trim().equals("")) {
-            return false;
+            errorMessage += "<span> - Fill address </span><br>";
         }
-        return true;
+        return errorMessage;
     }
 
     private boolean validateEmail(String email) {

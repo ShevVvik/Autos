@@ -30,7 +30,7 @@
 <div class="container my-3">
     <div class="row">
         <div class="mx-auto">
-            <div th:if="${error} == true" class="alert alert-danger" role="alert">
+            <div th:if="${error} == true" class="alert alert-danger" role="alert" th:utext="${errorMessage}">
                 Please check parameters!
             </div>
             <h2>Registration</h2>

@@ -39,7 +39,7 @@ public class SearchValidator {
         }
 
         if (searchForm.getPhone() != null && !searchForm.getPhone().equals("")) {
-            Pattern pattern = Pattern.compile("^\\d{10}$");
+            Pattern pattern = Pattern.compile("^\\d{11}$");
             Matcher matcher = pattern.matcher(searchForm.getPhone());
             if (!matcher.matches()) {
                 return false;
@@ -51,7 +51,7 @@ public class SearchValidator {
 
     public boolean checkSearchDealerForm(SearchDealersForm searchForm) {
 
-        if (searchForm.getEmail() != null && searchForm.getEmail().trim().equals("")) {
+        if (searchForm.getEmail() != null && !searchForm.getEmail().trim().equals("")) {
             if(!validateEmail(searchForm.getEmail())) return false;
         }
 

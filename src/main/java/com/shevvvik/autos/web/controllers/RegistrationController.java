@@ -36,8 +36,10 @@ public class RegistrationController {
 
     @PostMapping("registration")
     public String registrationPost(Model model, @ModelAttribute("userForm") RegistrationForm userForm) {
-        if(!validation.checkRegistrationForm(userForm)) {
+        String errorMessage = validation.checkRegistrationForm(userForm);
+        if(!"".equals(errorMessage)) {
             model.addAttribute("error", true);
+            model.addAttribute("errorMessage", errorMessage);
             model.addAttribute("cities", serviceUtils.getCities());
             model.addAttribute("userForm", userForm);
             return "registration";

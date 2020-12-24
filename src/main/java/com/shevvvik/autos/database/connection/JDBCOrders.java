@@ -6,6 +6,7 @@ import com.shevvvik.autos.services.entities.CommentEntity;
 import com.shevvvik.autos.services.entities.OrderProfile;
 import com.shevvvik.autos.web.forms.CommentForm;
 import com.shevvvik.autos.web.forms.OrderForm;
+import com.shevvvik.autos.web.forms.PriceForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -150,5 +151,17 @@ public class JDBCOrders {
 
         connection.close();
         return list;
+    }
+
+    public void changePrice(PriceForm priceForm) throws SQLException {
+        String query = "UPDATE offers SET price = ?, dealer_percent = ? WHERE id = ?";
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, priceForm.getPrice());
+        preparedStatement.setInt(2, priceForm.getPercent());
+        preparedStatement.setInt(3, priceForm.getOrderId());
+        preparedStatement.execute();
+        preparedStatement.close();
+        connection.close();
     }
 }

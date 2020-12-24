@@ -7,7 +7,7 @@ public class SearchClientEntity {
     private String patronymic;
     private String lastName;
     private String city;
-    private Integer phone;
+    private Long phone;
     private String email;
 
     public Integer getId() {
@@ -50,11 +50,11 @@ public class SearchClientEntity {
         this.city = city;
     }
 
-    public Integer getPhone() {
+    public Long getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 

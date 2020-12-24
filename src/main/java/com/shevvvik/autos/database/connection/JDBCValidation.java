@@ -34,4 +34,17 @@ public class JDBCValidation {
         result = callableStatement.getInt(1);
         return result;
     }
+
+    public Integer checkEmail(String email) throws SQLException {
+        Integer result = 0;
+        String query = "SELECT count(*) FROM users WHERE email = ?";
+        Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, email);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        result = resultSet.getInt(1);
+        connection.close();
+        return result;
+    }
 }

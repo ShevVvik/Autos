@@ -8,6 +8,7 @@ import com.shevvvik.autos.services.logger.Logger;
 import com.shevvvik.autos.services.logger.LoggerConstants;
 import com.shevvvik.autos.web.forms.CommentForm;
 import com.shevvvik.autos.web.forms.OrderForm;
+import com.shevvvik.autos.web.forms.PriceForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -105,5 +106,18 @@ public class OrdersLogic {
             exception.printStackTrace();
         }
         logger.log(LoggerConstants.DEFAULT_OPERATION, "New comment was added to order - {?}", commentForm.getOrderId().toString());
+    }
+
+    public void changePrice(PriceForm priceForm) {
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+        try {
+            jdbcOrders.changePrice(priceForm);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        logger.log(LoggerConstants.DEFAULT_OPERATION, "Change price to order - {?}", priceForm.getOrderId().toString());
     }
 }

@@ -6,7 +6,7 @@ public class SearchDealerEntity {
     private String firstName;
     private String patronymic;
     private String lastName;
-    private Integer phone;
+    private Long phone;
     private String email;
     private Integer enteredOrders;
     private Integer inProgressOrders;
@@ -45,11 +45,11 @@ public class SearchDealerEntity {
         this.lastName = lastName;
     }
 
-    public Integer getPhone() {
+    public Long getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(long phone) {
         this.phone = phone;
     }
 
